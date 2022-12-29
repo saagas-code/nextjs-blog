@@ -8,11 +8,12 @@ import '../styles/globals.css'
 import Markdown from './../src/shared/components/markdown/index';
 import Link from "next/link";
 
-const baseURL = 'https://www.tabnews.com.br/api/v1'
 const postsEndPoint = '/contents/guscsales';
 
 async function  getLastPost() {
-  const postsResponse = await fetch(`${baseURL}${postsEndPoint}`);
+  const postsResponse = await fetch(`
+    ${process.env.BLOG_PROVIDER_BASE_API}${postsEndPoint}`
+  );
   let posts = await postsResponse.json() as Post[];
 
   posts = filterTitleNotNull(posts)
@@ -21,7 +22,7 @@ async function  getLastPost() {
 
   const [lastPostFromList] = posts;
 
-  const lastPostResponse = await fetch(`${baseURL}${postsEndPoint}/${lastPostFromList.slug}`)
+  const lastPostResponse = await fetch(`${process.env.BLOG_PROVIDER_BASE_API}${postsEndPoint}/${lastPostFromList.slug}`)
   const lastPost = (await lastPostResponse.json()) as Post;
   if(lastPost) {
     return {...lastPost, created_at: new Date(lastPost.created_at)}
@@ -37,11 +38,11 @@ export default async function Home() {
   }
 
   return (
-    <article>
+    <article className="w-full lg:w-[50rem]">
       <Text variant="sm" className="text-gray-500">
         {format(lastPost?.created_at as Date, 'dd.MM.yyyy')} - Última Postagem...
       </Text>
-      <Text as="h1" variant="3xl" className="w-full lg:w-[35rem] mt-2 mb-12">
+      <Text as="h1" variant="2xl lg:3xl" className="w-full lg:w-[35rem] mt-2 mb-12">
         {lastPost.title}
       </Text>
 

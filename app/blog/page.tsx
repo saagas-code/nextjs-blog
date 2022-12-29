@@ -1,7 +1,27 @@
 import {Text} from 'thon-ui';
 import PostsListItem from '../../src/domains/posts/components/posts-list-item';
+import { Post } from '../../src/domains/posts/models/post';
+import { sortByDate } from './../../helpers/sortByDate';
+import { filterTitleNotNull } from './../../helpers/filterTitleNotNull';
+import { transformToDate } from './../../helpers/transformToDate';
 
-export default function BlogPage() {
+const postsEndPoint = '/contents/guscsales';
+
+async function fetchPosts() {
+  const postsResponse = await fetch(
+    `${process.env.BLOG_PROVIDER_BASE_API}${postsEndPoint}`
+  )
+  let posts = (await postsResponse.json()) as Post[];
+  
+  posts = filterTitleNotNull(posts)
+  posts = transformToDate(posts)
+  posts = sortByDate(posts)
+  return posts ? posts : [];
+}
+
+export default async function BlogPage() {
+  const posts = await fetchPosts()
+
   return (
     <article>
       <header>
@@ -10,39 +30,24 @@ export default function BlogPage() {
         </Text>
       </header>
 
-      <ul aria-label='Posts' className="grid gap-6 w-full lg:w-[41.375rem]">
-        <li>
-          <PostsListItem 
-            post={{
-              slug: 'any-slug',
-              title: 'Uma boa maneira de organizar suas branches',
-              created_at: new Date(2022, 10, 24)
-            }}
-            isLarge
-            headerComplement=" - Última Postagem..."
-          />
-        </li>
-
-        <li>
-        <PostsListItem 
-            post={{
-              slug: 'any-slug2',
-              title: 'Uma2 boa maneira de organizar suas branches',
-              created_at: new Date(2022, 10, 24)
-            }}
-          />
-        </li>
-
-        <li>
-          <PostsListItem 
-            post={{
-              slug: 'any-slug 3',
-              title: 'Uma boa maneira de organizar suas branches',
-              created_at: new Date(2022, 10, 24)
-            }}
-          />
-        </li>
-      </ul>
+      {posts.length > 0 && 
+        <ul aria-label='Posts' className="grid gap-6 w-full lg:w-[41.375rem]">
+          {posts.map((post, index) => (
+            <li key={post.slug}>
+              <PostsListItem 
+                post={post}
+                isLarge={index === 0}
+                headerComplement={index === 0 ? " - Última Postagem..." : undefined}
+              />
+            </li>
+          ))}
+        </ul>
+      }
+      {posts.length === 0 && (
+        <Text variant="xl">
+          Nenhum post encontrado
+        </Text>
+      )}
     </article>
   )
 }
