@@ -2,14 +2,15 @@ import { Text } from "thon-ui";
 import { format } from 'date-fns';
 import Markdown from "../../../../shared/components/markdown";
 import { Post } from "../../models/post";
+import { PostDetail } from "../../models/post-detail";
 
 
 type Props = {
-  post: Post
+  post: PostDetail
   headerComplement?: React.ReactNode
 }
 
-export default function PostDetail({post}: Props) {
+export default function PostDetailComponent({post}: Props) {
   return (
     <>
       <Text variant="sm" className="text-gray-500">
@@ -20,7 +21,7 @@ export default function PostDetail({post}: Props) {
       </Text>
 
       <section>
-        <Markdown value={post.body || ''} />
+        <Markdown value={post.body} />
       </section>
 
     </>

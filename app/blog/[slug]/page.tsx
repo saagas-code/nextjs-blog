@@ -1,6 +1,7 @@
-import { sortByDate } from "../../../helpers/sortByDate";
-import PostDetail from "../../../src/domains/posts/components/post-detail";
-import { Post } from './../../../src/domains/posts/models/post';
+
+import { Text } from "thon-ui";
+import PostDetailComponent from "../../../src/domains/posts/components/post-detail-component";
+import { PostDetail } from "../../../src/domains/posts/models/post-detail";
 
 
 type Props = {
@@ -9,17 +10,18 @@ type Props = {
   }
 }
 
-export default function BlogPostDetailsPage({params}: Props) {
-  const {slug} = params;
+async function getPost(slug: string) {
+  const postResponse = await fetch(`${process.env.BLOG_PROVIDER_BASE_API}/contents/guscsales/${slug}`)
+  const post = (await postResponse.json()) as PostDetail;
 
-  return (
-    <>
-      <PostDetail post={{
-          slug: 'any-slug2',
-          title: 'Uma2 boa maneira de organizar suas branches',
-          created_at: new Date(2022, 10, 24)
-        }} 
-      />
-    </>
-  )
+  post.created_at = new Date(post.created_at)
+
+  return post
+}
+
+export default async function BlogPostDetailsPage({params}: Props) {
+  const {slug} = params;
+  const post = await getPost(slug);
+
+  return post ? <PostDetailComponent post={post} /> : <Text variant="xl">Post não encontrado</Text>
 }

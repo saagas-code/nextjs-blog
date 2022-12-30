@@ -7,6 +7,7 @@ import {format} from 'date-fns'
 import '../styles/globals.css'
 import Markdown from './../src/shared/components/markdown/index';
 import Link from "next/link";
+import { PostDetail } from "../src/domains/posts/models/post-detail";
 
 const postsEndPoint = '/contents/guscsales';
 
@@ -23,7 +24,7 @@ async function  getLastPost() {
   const [lastPostFromList] = posts;
 
   const lastPostResponse = await fetch(`${process.env.BLOG_PROVIDER_BASE_API}${postsEndPoint}/${lastPostFromList.slug}`)
-  const lastPost = (await lastPostResponse.json()) as Post;
+  const lastPost = (await lastPostResponse.json()) as PostDetail;
   if(lastPost) {
     return {...lastPost, created_at: new Date(lastPost.created_at)}
   }
