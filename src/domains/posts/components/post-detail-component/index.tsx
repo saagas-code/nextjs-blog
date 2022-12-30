@@ -20,7 +20,7 @@ export default function PostDetailComponent({post}: Props) {
         {post.title}
       </Text>
 
-      <section>
+      <section className="w-full lg:w-[50rem]">
         <Markdown value={post.body} />
       </section>
 

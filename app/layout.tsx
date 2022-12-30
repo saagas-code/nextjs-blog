@@ -20,9 +20,9 @@ export default function RootLayout({children}: Props) {
       <body className="lg:grid lg:grid-cols-[26.5rem_1fr] xl:grid-cols-[34.25rem_1fr]">
         <MainHeader />
         <main className="p-10 flex flex-col justify-between">
-          <div>
-            {children}
-          </div>
+          
+          {children}
+          
           <MainFooter />
         </main>
       </body>
