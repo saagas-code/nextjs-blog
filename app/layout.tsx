@@ -17,12 +17,12 @@ export default function RootLayout({children}: Props) {
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet" />
       </head>
-      <body className="lg:grid lg:grid-cols-[26.5rem_1fr] xl:grid-cols-[34.25rem_1fr]">
+      <body className="lg:grid lg:grid-cols-[26.5rem_1fr] xl:grid-cols-[34.25rem_1fr] min-h-[100vh]">
         <MainHeader />
         <main className="p-10 flex flex-col justify-between">
-          
-          {children}
-          
+          <div>
+            {children}
+          </div>
           <MainFooter />
         </main>
       </body>
