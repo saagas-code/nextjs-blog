@@ -8,8 +8,8 @@ import { Text } from 'thon-ui';
 export default function MainHeader() {
   return (
     <header 
-      className="lg:h-screen px-7 pt-8 pb-6 lg:pt-0 lg:pb-0
-        flex flex-col justify-center 
+      className="lg:min-h[100vh] px-7 pt-8 pb-6 lg:pt-40 lg:pb-0
+        flex flex-col 
         items-center  bg-gray-100"
       >
       <div className="flex gap-3 items-center">
