@@ -9,7 +9,7 @@ const postsEndPoint = '/contents/guscsales';
 
 async function fetchPosts() {
   const postsResponse = await fetch(
-    `${process.env.BLOG_PROVIDER_BASE_API}${postsEndPoint}`
+    `${process.env.BLOG_PROVIDER_BASE_API}/contents/${process.env.API_CONTENT}`
   )
   let posts = (await postsResponse.json()) as Post[];
   

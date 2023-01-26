@@ -11,7 +11,7 @@ type Props = {
 }
 
 async function getPost(slug: string) {
-  const postResponse = await fetch(`${process.env.BLOG_PROVIDER_BASE_API}/contents/guscsales/${slug}`)
+  const postResponse = await fetch(`${process.env.BLOG_PROVIDER_BASE_API}/contents/${process.env.API_CONTENT}/${slug}`)
   const post = (await postResponse.json()) as PostDetail;
 
   post.created_at = new Date(post.created_at)
